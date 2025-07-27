@@ -1,1 +1,16 @@
-...
+# Terraform files
+infra/.terraform/
+*.tfstate
+*.tfstate.backup
+
+# AWS CLI artifacts
+infra/aws/dist/
+infra/awscliv2.zip
+
+# Node.js junk (if any)
+node_modules/
+
+# VS Code or OS files (optional)
+.vscode/
+.DS_Store
+
