@@ -25,19 +25,23 @@ pipeline {
         }
 
         stage('Terraform Apply') {
-            environment {
-                AWS_ACCESS_KEY_ID = credentials('aws-creds')     // this should match your Jenkins credentials ID
-                AWS_SECRET_ACCESS_KEY = credentials('aws-creds')
-            }
-            steps {
-                dir('infra') {
-                    sh '''
-                        terraform init
-                        terraform apply -auto-approve
-                    '''
+           steps {
+               withCredentials([[
+                    $class: 'AmazonWebServicesCredentialsBinding',
+                    credentialsId: 'aws-creds'
+                ]]) {
+                    dir('infra') {
+                        sh '''
+                            export AWS_ACCESS_KEY_ID=$AWS_ACCESS_KEY_ID
+                            export AWS_SECRET_ACCESS_KEY=$AWS_SECRET_ACCESS_KEY
+                            terraform init
+                            terraform apply -auto-approve
+                        '''
+                    }
                 }
             }
         }
+
 
         stage('Deploy with Ansible') {
             steps {
