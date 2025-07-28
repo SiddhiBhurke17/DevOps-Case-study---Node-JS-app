@@ -46,7 +46,9 @@ pipeline {
         stage('Deploy with Ansible') {
             steps {
                 sshagent(['ec2-ssh-key']) {
-                    sh 'ansible-playbook -i ansible/hosts.ini ansible/deploy.yml'
+                    sh '''
+			export ANSIBLE_HOST_KEY_CHECKING=False
+			ansible-playbook -i ansible/hosts.ini ansible/deploy.yml'''
                 }
             }
         }
