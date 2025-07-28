@@ -14,13 +14,7 @@ pipeline {
 
         stage('Build & Dockerize') {
             steps {
-                withCredentials([
-                    usernamePassword(
-                        credentialsId: 'dockerhub-creds', 
-                        usernameVariable: 'DOCKER_USERNAME', 
-                        passwordVariable: 'DOCKER_PASSWORD'
-                    )
-                ]) {
+                withCredentials([usernamePassword(credentialsId: 'dockerhub-creds', usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
                     sh '''
                         echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
                         chmod +x build_and_push.sh
@@ -31,10 +25,16 @@ pipeline {
         }
 
         stage('Terraform Apply') {
+            environment {
+                AWS_ACCESS_KEY_ID = credentials('aws-creds')     // this should match your Jenkins credentials ID
+                AWS_SECRET_ACCESS_KEY = credentials('aws-creds')
+            }
             steps {
                 dir('infra') {
-                    sh 'terraform init'
-                    sh 'terraform apply -auto-approve'
+                    sh '''
+                        terraform init
+                        terraform apply -auto-approve
+                    '''
                 }
             }
         }
