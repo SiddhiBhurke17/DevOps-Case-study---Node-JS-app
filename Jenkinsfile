@@ -2,7 +2,7 @@ pipeline {
     agent any
 
     environment {
-        DOCKER_IMAGE = 'siddhi17/myapp'
+        DOCKER_IMAGE = 'siddhi17/nodejs-app'
     }
 
     stages {
@@ -20,8 +20,8 @@ pipeline {
         }
 
         stage('Terraform Apply') {
-            dir('infra') {
-                steps {
+            steps {
+                dir('infra') {
                     sh 'terraform init'
                     sh 'terraform apply -auto-approve'
                 }
@@ -31,7 +31,7 @@ pipeline {
         stage('Deploy with Ansible') {
             steps {
                 sshagent(['ec2-ssh-key']) {
-                    sh 'ansible-playbook -i ansible/inventory ansible/deploy.yml'
+                    sh 'ansible-playbook -i ansible/hosts.ini ansible/deploy.yml'
                 }
             }
         }
