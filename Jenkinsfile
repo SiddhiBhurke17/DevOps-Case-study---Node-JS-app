@@ -14,8 +14,19 @@ pipeline {
 
         stage('Build & Dockerize') {
             steps {
-                sh 'chmod +x build_and_push.sh'
-                sh './build_and_push.sh'
+                withCredentials([
+                    usernamePassword(
+                        credentialsId: 'dockerhub-creds', 
+                        usernameVariable: 'DOCKER_USERNAME', 
+                        passwordVariable: 'DOCKER_PASSWORD'
+                    )
+                ]) {
+                    sh '''
+                        echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+                        chmod +x build_and_push.sh
+                        ./build_and_push.sh
+                    '''
+                }
             }
         }
 
