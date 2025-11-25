@@ -64,7 +64,7 @@ resource "aws_instance" "my_instance"{
 	}
 
 	tags = {
-		Name = "Case-study-2-instance"
+		Name = "Case-study-instance"
 	}
 
 
