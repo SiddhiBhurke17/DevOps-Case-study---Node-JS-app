@@ -24,7 +24,6 @@
 4. 𝑱𝒆𝒏𝒌𝒊𝒏𝒔 𝑷𝒊𝒑𝒆𝒍𝒊𝒏𝒆 𝑺𝒕𝒂𝒈𝒆𝒔
 
   Jenkins executes the following stages defined in Jenkinsfile:
-  <img width="1577" height="303" alt="image" src="https://github.com/user-attachments/assets/204008d0-81dc-4d49-a3e3-60966e3932f6" />
   <img width="1434" height="843" alt="image" src="https://github.com/user-attachments/assets/57724e09-2338-4e3c-b7e4-16be58879dd9" />
   <img width="1399" height="810" alt="image" src="https://github.com/user-attachments/assets/b6882002-8ec1-42cf-b553-58e35e63a3d5" />
   
